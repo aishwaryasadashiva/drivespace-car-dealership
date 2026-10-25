@@ -7,7 +7,7 @@ The following results were recorded during local verification of the project.
 | Check | Result | Notes |
 |---|---|---|
 | Python syntax compilation | Passed | Python application and test files compiled successfully. |
-| Backend pytest suite | 15 passed, 1 warning | All 15 backend tests passed. One deprecation warning was reported by the test environment. |
+| Backend pytest suite | 25 passed, 2 warning | All 25 backend tests passed. One deprecation warning was reported by the test environment. |
 | Frontend production build | To be verified | Run the frontend build command and record the actual result. |
 | Frontend lint | To be verified | Run the frontend lint command and record the actual result. |
 | Git whitespace check | To be verified | Run `git diff --check` and record the result. |
