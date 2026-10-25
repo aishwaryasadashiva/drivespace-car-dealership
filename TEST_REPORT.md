@@ -1,18 +1,18 @@
 # Backend Test Report
 
-## Current verification status
+## Verification Status
 
-This report is intentionally conservative: it records only checks actually performed on this working revision.
+The following results were recorded during local verification of the project.
 
 | Check | Result | Notes |
 |---|---|---|
-| Python syntax compilation | Passed | `python -m py_compile backend/app/*.py backend/tests/*.py` completed successfully in the preparation environment. |
-| Backend pytest suite | Not run here | Required Python packages were unavailable and package-index network access failed. Run the test command below locally. |
-| Frontend production build | Not verified here | Frontend dependencies were unavailable in the preparation environment. |
-| Frontend lint | Not verified here | Frontend dependencies were unavailable in the preparation environment. |
-| Git whitespace check | Passed on the supplied patch | `git diff --check` reported no issues in the user-provided working tree. |
+| Python syntax compilation | Passed | Python application and test files compiled successfully. |
+| Backend pytest suite | 15 passed, 1 warning | All 15 backend tests passed. One deprecation warning was reported by the test environment. |
+| Frontend production build | To be verified | Run the frontend build command and record the actual result. |
+| Frontend lint | To be verified | Run the frontend lint command and record the actual result. |
+| Git whitespace check | To be verified | Run `git diff --check` and record the result. |
 
-## Run verification locally
+## Run Verification Locally
 
 From the repository root, activate the project's virtual environment and run:
 
@@ -20,12 +20,24 @@ From the repository root, activate the project's virtual environment and run:
 bash scripts/verify.sh
 ```
 
-Replace this report with the real command output and results after running those checks. Do not report tests as passing unless they actually pass.
+Record the actual output and update this report if the results differ from those listed above. Do not mark a check as passed unless it has been successfully verified.
 
-## Coverage intended
+## Backend Test Coverage
 
-The backend tests cover authentication and registration, protection against self-promotion, isolated test database use, idempotent inventory seeding, vehicle listing/search, admin-only create/update/delete/restock operations, stock decrement, out-of-stock behavior, and order creation/history.
+The backend tests cover:
 
-## TDD and AI usage note
+- Authentication and user registration
+- Protection against self-promotion to administrator
+- Isolated test database use
+- Idempotent inventory seeding
+- Vehicle listing and search
+- Admin-only vehicle creation, updating, deletion, and restocking
+- Stock decrement after a purchase
+- Out-of-stock behavior
+- Order creation and purchase history
 
-The original implementation predates some of the tests added in this revision. The current repository history must not be represented as a complete Red–Green–Refactor sequence unless the commits genuinely demonstrate it. Do not manufacture historical commits or timestamps. For future AI-assisted commits, add the required co-author trailer and keep the AI-use documentation accurate.
+## TDD and AI Usage Note
+
+The original implementation predates some of the tests added in this revision. The existing commit history should not be represented as a complete Red–Green–Refactor sequence unless the commits genuinely demonstrate that workflow. Historical commits and timestamps must not be fabricated.
+
+AI-assisted work should be documented transparently in `README.md` and `PROMPTS.md`. Future AI-assisted commits should follow the co-author attribution requirements applicable to the project.
