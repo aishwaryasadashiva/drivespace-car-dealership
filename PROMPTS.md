@@ -62,6 +62,7 @@ The assignment requires raw, unedited AI chat logs or public links to original c
 
 ## This Chat Session
 
-This section records the documentation status for the current chat session; it is not a raw transcript and is not represented as one. I cannot generate a public ChatGPT share link from within the project files.
+- **Original conversation:** https://chatgpt.com/share/6addf113-6190-83e8-93e7-86506b3b3d23
+- **Purpose:** Document assistance with GitHub repository setup, test verification, README updates, and AI usage documentation.
 
-Before final submission, add a genuine public link to this conversation if the ChatGPT interface offers sharing, or export and append the unedited chat log. The existing original public conversation link above must be retained. Do not treat the summaries elsewhere in this file as raw transcripts.
+This link points to the original ChatGPT conversation. The summaries elsewhere in this file are not verbatim transcripts and should not be treated as substitutes for original conversation records.
