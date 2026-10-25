@@ -1,86 +1,109 @@
-# Car Dealership Inventory System
+# DriveSpace — Car Dealership Inventory System
 
 ## About the Project
 
-This project is a car dealership inventory system that helps manage vehicles available for sale. Users can register, log in, view available vehicles, search the inventory, and purchase vehicles. When a purchase is made, the available stock is updated automatically.
+DriveSpace is a car dealership inventory management application that allows users to register, log in, browse available vehicles, search the inventory, and purchase vehicles. Stock is updated automatically after a successful purchase.
 
-The system also supports admin-only operations for adding and updating vehicle details, restocking vehicles, and removing vehicles from the inventory.
+The system also provides administrator-only operations for adding vehicles, updating vehicle details, restocking inventory, and deleting vehicles.
 
-The backend is built using FastAPI and SQLite, with SQLAlchemy for database operations. The frontend uses React, TypeScript, and Tailwind CSS. Pytest is used to test backend functionality.
+The backend is built with FastAPI, SQLite, and SQLAlchemy. The frontend uses React, TypeScript, Vite, and Tailwind CSS. Pytest is used to test backend functionality.
 
 ## Technologies Used
 
-- Python and FastAPI
-- SQLite and SQLAlchemy
-- React and TypeScript
-- Vite and Tailwind CSS
-- Pytest
+- **Backend:** Python, FastAPI, SQLAlchemy
+- **Database:** SQLite
+- **Frontend:** React, TypeScript, Vite, Tailwind CSS
+- **Authentication:** JWT-based authentication
+- **Testing:** Pytest
+- **Quality checks:** ESLint and production build verification
 
-## Main Features
+## Features
 
 - User registration and login
-- JWT-based authentication for protected endpoints
-- Authenticated access to the vehicle inventory
-- Search vehicles by make, model, category, and price range
-- Purchase vehicles and automatically update stock
-- Prevent purchases when a vehicle is out of stock
-- Admin-only vehicle creation, restocking, updating, and deletion
-- Automated tests for backend API functionality
+- JWT authentication for protected endpoints
+- Authenticated vehicle inventory access
+- Search by make, model, category, and price range
+- Vehicle purchases with automatic stock updates
+- Prevention of purchases when a vehicle is out of stock
+- Administrator-only vehicle creation, updates, restocking, and deletion
+- Order creation and purchase history
+- Automated backend API tests
+- Interactive API documentation through FastAPI
+
+## Screenshots
+
+### Vehicle Inventory
+
+![DriveSpace vehicle inventory](screenshots/inventory.png)
+
+### Vehicle Search
+
+![DriveSpace vehicle search](screenshots/search.png)
+
+### Vehicle Purchase
+
+![DriveSpace purchase flow](screenshots/purchase.png)
+
+### API Documentation
+
+![FastAPI interactive API documentation](screenshots/api-docs.png)
 
 ## Project Structure
 
 ```text
-car-dealership-inventory/
+car-dealership-inventory-final/
 ├── backend/
 │   ├── app/
-│   │   ├── bootstrap_admin.py
-│   │   └── seed.py
 │   ├── tests/
 │   ├── .env.example
 │   └── requirements.txt
 ├── frontend/
 ├── screenshots/
-├── scripts/verify.sh
-├── README.md
+├── scripts/
+│   └── verify.sh
 ├── PROMPTS.md
+├── README.md
 └── TEST_REPORT.md
 ```
 
-## How to Run the Project
-
-### Prerequisites
+## Prerequisites
 
 Install Python 3, Node.js, and npm.
 
-### Backend Setup
+## How to Run the Project
 
-From the project root, create and activate a virtual environment if you do not already have one:
+### 1. Set Up the Backend
+
+From the repository root:
 
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
+pip install -r backend/requirements.txt
 ```
 
-Install the backend dependencies:
-
-```bash
-cd backend
-pip install -r requirements.txt
-```
-
-Set a private JWT secret for your local environment. Replace the example value with a strong, private secret. Do not commit your real secret to Git.
+Set a private JWT secret for your local environment:
 
 ```bash
 export JWT_SECRET_KEY="your-local-secret"
 ```
 
-Initialize the database and insert the sample vehicles. The seed script is idempotent: running it again does not duplicate the same make/model pairs. It includes several categories and one sold-out vehicle.
+Replace the example value with a strong, private secret. Never commit your actual secret to Git.
+
+### 2. Initialize the Database
+
+From the repository root, run:
 
 ```bash
+cd backend
 python -m app.seed
 ```
 
-Start the backend server from the `backend` directory:
+The seed script is designed to be idempotent and includes sample vehicles, including a sold-out vehicle.
+
+### 3. Start the Backend
+
+From the `backend` directory:
 
 ```bash
 uvicorn app.main:app --reload
@@ -88,28 +111,29 @@ uvicorn app.main:app --reload
 
 The backend runs at:
 
-http://127.0.0.1:8000
+`http://127.0.0.1:8000`
 
-### Create an administrator account
+Interactive API documentation:
 
-1. Start the backend and register the account normally through the frontend or `POST /api/auth/register`.
-2. In a second terminal, from the `backend` directory, activate the same virtual environment and run the following command with the email address of that existing account:
+`http://127.0.0.1:8000/docs`
 
-   ```bash
-   ADMIN_EMAIL=admin@example.com python -m app.bootstrap_admin
-   ```
+### 4. Create an Administrator Account
 
-3. Sign out and sign back in so the frontend refreshes the user's role.
+Register an account normally through the frontend or the registration API.
 
-Registration never grants administrator privileges, even if a request includes an `is_admin` field. Administrator creation is a server-side CLI operation; there is no public admin-promotion endpoint. The `ADMIN_EMAIL` value identifies the account the operator explicitly chooses to promote. Do not commit credentials or a real JWT secret.
+From a second terminal, go to the `backend` directory, activate the same virtual environment, and run the following command with the email address of the existing account:
 
-FastAPI's interactive API documentation is available at:
+```bash
+ADMIN_EMAIL=admin@example.com python -m app.bootstrap_admin
+```
 
-http://127.0.0.1:8000/docs
+Replace `admin@example.com` with the intended administrator's registered email. Sign out and sign back in to refresh the user's role.
 
-### Frontend Setup
+Registration does not grant administrator privileges. Administrator promotion is performed through the server-side CLI helper.
 
-Open a second terminal at the project root and run:
+### 5. Start the Frontend
+
+Open a second terminal at the repository root:
 
 ```bash
 cd frontend
@@ -117,82 +141,68 @@ npm ci
 npm run dev
 ```
 
-Open the local URL displayed in the terminal. Vite typically uses `http://localhost:5173`, but it may select another port if that port is already occupied.
+Open the local URL displayed by Vite in your terminal.
 
-### Running the Tests
+## Running Tests and Verification
 
-Activate the project's virtual environment if it is not already active. From the project root, run:
-
-```bash
-cd backend
-PYTHONPATH=. python -m pytest -v
-```
-
-The backend tests use a separate in-memory SQLite database. The test lifespan skips normal database initialization when the isolated test fixture is active, so tests do not create or modify the application's regular `inventory.db`.
-
-### Run all checks
-
-After installing the backend requirements and frontend dependencies, run this from the repository root:
+From the repository root, activate the virtual environment and run the verification script:
 
 ```bash
 bash scripts/verify.sh
 ```
 
-The script runs the backend tests, frontend production build, and frontend lint checks. Record the actual results in `TEST_REPORT.md` before submission.
+The script runs the backend tests, frontend production build, and frontend lint checks.
+
+### Latest Recorded Results
+
+- **Backend tests:** 25 passed
+- **Warnings:** 2 deprecation warnings
+- **Frontend production build:** Passed
+- **Frontend lint:** Passed
+
+These results are from the local verification run. See `TEST_REPORT.md` for the recorded details. Rerun the verification script after making changes to confirm the results remain valid.
+
+The backend tests use an isolated in-memory SQLite database so test operations do not modify the regular application database.
 
 ## API Endpoints
 
 | Method | Endpoint | Purpose |
 |---|---|---|
-| POST | `/api/auth/register` | Register a new user |
+| POST | `/api/auth/register` | Register a user |
 | POST | `/api/auth/login` | Log in |
-| GET | `/api/auth/me` | Retrieve the authenticated user's details |
+| GET | `/api/auth/me` | Retrieve authenticated user details |
 | GET | `/api/vehicles` | View vehicles |
 | GET | `/api/vehicles/search` | Search vehicles |
 | POST | `/api/vehicles` | Add a vehicle (admin only) |
 | POST | `/api/vehicles/{vehicle_id}/purchase` | Purchase a vehicle |
 | POST | `/api/vehicles/{vehicle_id}/restock` | Restock a vehicle (admin only) |
 | PUT | `/api/vehicles/{vehicle_id}` | Update vehicle details (admin only) |
-| DELETE | `/api/vehicles/{vehicle_id}` | Remove a vehicle (admin only) |
+| DELETE | `/api/vehicles/{vehicle_id}` | Delete a vehicle (admin only) |
 
-Protected endpoints require authentication. Administrative operations are restricted to users with administrator privileges.
+Protected endpoints require authentication, and administrative operations require administrator privileges.
 
 ## Database
 
-The application uses SQLite to store vehicle and user information. SQLAlchemy handles database operations.
-
-The test suite uses a separate in-memory database, allowing tests to run without adding test records to the regular application database.
-
-## Screenshots
-
-Screenshots of the application and API documentation are available in the `screenshots/` directory:
-
-- `inventory.png` — inventory dashboard
-- `search.png` — vehicle search
-- `purchase.png` — purchase flow
-- `api-docs.png` — FastAPI API documentation
-
-Confirm that these files are included in the repository before submission.
+The application uses SQLite to store user and vehicle information. SQLAlchemy manages database operations. The test suite uses a separate in-memory database to isolate test data from the application's regular database.
 
 ## My AI Usage
 
-I used ChatGPT to help understand errors, troubleshoot the test setup, review parts of the implementation, and improve project documentation. I reviewed the suggestions and used them to work through development issues.
+I used ChatGPT to help understand errors, troubleshoot the test setup, review parts of the implementation, and improve project documentation. I reviewed the suggestions and checked changes against the application by running tests and verification commands.
 
-AI assistance was useful for debugging and identifying gaps, but I also needed to verify the suggested changes against the actual application and run the tests. This experience reinforced the importance of understanding the code rather than relying on generated suggestions without verification.
+AI assistance helped me identify debugging issues and possible gaps. I also learned the importance of checking generated suggestions instead of relying on them without verification.
 
-The root `PROMPTS.md` file documents my AI usage and includes the original ChatGPT conversation link currently available to me, along with summaries of the assistance received. These summaries are not verbatim transcripts. I will verify that the original conversation records adequately document the AI-assisted work before submission, as required by the assignment.
+`PROMPTS.md` documents AI-assisted work and includes the original conversation link currently available to me, together with summaries of assistance received. These summaries are not verbatim transcripts. I will ensure that the original conversation records meet the assignment's documentation requirements before submission.
+
+## TDD and Commit History
+
+The original implementation predates some of the tests added during development. The current Git history does not establish a complete Red–Green–Refactor sequence, so it should not be presented as one.
+
+Historical commits and timestamps must not be fabricated. Future development should use genuine test-first changes and document AI assistance according to the assignment's requirements.
 
 ## Test Report
 
-The `TEST_REPORT.md` file records the backend test results, including passing tests, failures, warnings, and the verification performed on the frontend.
+See [`TEST_REPORT.md`](TEST_REPORT.md) for verification results and warnings.
 
-## Current Status
+## Repository
 
-Verification status for this working revision:
-
-- Python syntax compilation: passed in the preparation environment.
-- Backend pytest suite: not executed in the preparation environment because its Python dependencies could not be installed there.
-- Frontend production build and lint: not verified in the preparation environment because frontend dependencies were unavailable.
-- GitHub push: not performed from this environment.
-
-Run the commands above on a machine with the dependencies installed before submission, then update `TEST_REPORT.md` with the actual output. The existing Git history does not establish a complete Red–Green–Refactor sequence; do not fabricate earlier commits or timestamps. Review existing commits and use genuine AI co-author trailers on future AI-assisted commits.
+Source code, tests, documentation, and screenshots are maintained in this GitHub repository.
